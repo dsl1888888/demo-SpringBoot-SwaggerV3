@@ -31,10 +31,10 @@ public class DemoController {
     }
 
     // GET a user by ID
-    @GetMapping(value = "/{id}")
-    public String a3() {
-        return " GET a user by ID" + UUID.randomUUID().toString();
-    }
+//    @GetMapping(value = "/{id}")
+//    public String a3() {
+//        return " GET a user by ID" + UUID.randomUUID().toString();
+//    }
 
     // POST a new user
     @PostMapping(value = "")
