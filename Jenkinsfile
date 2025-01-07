@@ -1,9 +1,14 @@
 pipeline {
     agent any
+    tools {
+        git 'git2.39.1'  // This refers to the Git installation you configured in Jenkins
+        mvn 'maven3.9.9'
+
+    }
 //     tools {
-//         //git 'Git'  // This refers to the Git installation you configured in Jenkins
-// //         mvn 'maven3.9.9'
+//         maven 'maven3.9.9'  // Reference the configured Maven installation
 //     }
+
     environment {
         // The branch name can be accessed as an environment variable.
         BRANCH_NAME = "${env.GIT_BRANCH}"
@@ -12,6 +17,24 @@ pipeline {
 
 
     stages {
+         stage('Git Version Check') {
+            steps {
+                script {
+                    // Run 'git --version' to check the installed Git version
+                    sh 'git --version'
+                }
+            }
+        }
+        stage('Maven Version Check') {
+            steps {
+                script {
+                    // Run 'git --version' to check the installed Git version
+                    sh 'mvn --version'
+                }
+            }
+        }
+
+
         // Stage to check out the source code from the Git repository
         stage('Checkout') {
             steps {
@@ -21,7 +44,6 @@ pipeline {
 
         // Stage to build the Spring Boot application using Maven
         stage('Build') {
-            agent { docker 'maven:3-alpine' } 
             steps {
                 script {
                     echo "Building Spring Boot application from branch: ${BRANCH_NAME}"
