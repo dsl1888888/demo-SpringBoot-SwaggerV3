@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'maven3.9.9'
-    }
+//     tools {
+//         maven 'maven3.9.9'
+//     }
     environment {
         // Define environment variables
         JAVA_HOME = '/opt/java/openjdk'  // Adjust if necessary
