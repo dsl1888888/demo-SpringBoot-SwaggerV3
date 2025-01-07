@@ -1,84 +1,39 @@
-pipeline {
-    agent any
-    
+node(label: 'linux-builder-17'){
 
-    environment {
-        // The branch name can be accessed as an environment variable.
-        BRANCH_NAME = "${env.GIT_BRANCH}"
+    scmVars = checkout(scm)
+    gitUrl = scmVars.GIT_URL
+    gitBranch = scmVars.GIT_BRANCH
+
+    // read pom file
+    pom = readMavenPom(file: 'pom.xml')
+
+    // app information
+    appVersion = pom.version.toLowerCase() + '-' + scmVars.GIT_COMMIT[0..4] + '_' + scmVars.GIT_COMMIT[-5..-1]
+
+    if (env.GIT_BRANCH == null) {
+        env.GIT_BRANCH = env.BRANCH_NAME
     }
 
-
-
-    stages {
-         stage('Git Version Check') {
-            steps {
-                script {
-                    // Run 'git --version' to check the installed Git version
-                    sh 'git --version'
-                }
-            }
-        }
-        stage('Maven Version Check') {
-            steps {
-                script {
-                    // Run 'git --version' to check the installed Git version
-                    sh 'mvn --version'
-                }
-            }
-        }
-
-
-        // Stage to check out the source code from the Git repository
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        // Stage to build the Spring Boot application using Maven
-        stage('Build') {
-            steps {
-                script {
-                    echo "Building Spring Boot application from branch: ${BRANCH_NAME}"
-
-                    // Run Maven clean and install commands to build the project
-                    sh 'mvn clean install -DskipTests'
-                }
-            }
-        }
-
-        // Stage to run tests (you can configure it to run only on specific branches or environments)
-//         stage('Test') {
-//             steps {
-//                 script {
-//                     echo "Running tests for branch: ${BRANCH_NAME}"
-//
-//                     // Run Maven test command
-//                     sh 'mvn test'
-//                 }
-//             }
-//         }
-
-        // Stage to deploy the Spring Boot application (this can be to a test environment)
-//         stage('Deploy') {
-//             steps {
-//                 script {
-//                     echo "Deploying branch: ${BRANCH_NAME}"
-//
-//                     // Run Maven to package and deploy to a test environment
-//                     sh 'mvn spring-boot:run -Dspring-boot.run.profiles=test'
-//                 }
-//             }
-//         }
+    stage ('unit test') {
+        // TODO:
+        //     // Use the Maven configured in Jenkins (via Global Tool)
+        //     // TODO: Fix unit tests
+        //     withMaven(maven: 'maven', options: [artifactsPublisher(disabled: true)]) {
+        //         sh "mvn clean verify -Pclover.all --update-snapshots -DskipTests"
+        //     }
+        //     // TODO: Add threshold for code coverage
+        //     step([
+        //         $class: 'CloverPublisher',
+        //         cloverReportDir: 'target/site',
+        //         cloverReportFileName: 'clover.xml'
+        //       ])
     }
 
-    // Post actions to handle success or failure notifications
-    post {
-        success {
-            echo "Pipeline for branch ${BRANCH_NAME} completed successfully."
-        }
-        failure {
-            echo "Pipeline for branch ${BRANCH_NAME} failed."
+    stage ('build') {
+        // Use the Maven configured in Jenkins (via Global Tool)
+        withMaven(maven: 'maven', options: [artifactsPublisher(disabled: true)]) {
+            sh "mvn clean deploy --update-snapshots -DskipTests"
         }
     }
+
 }
