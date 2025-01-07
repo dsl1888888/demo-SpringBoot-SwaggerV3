@@ -6,7 +6,8 @@ pipeline {
 //     }
     environment {
         // Define environment variables
-        JAVA_HOME = '/opt/java/openjdk'  // Adjust if necessary
+//         JAVA_HOME = '/opt/java/openjdk'  // Adjust if necessary
+        JAVA_HOME = '/opt/jdk'  // Adjust if necessary
         REMOTE_SERVER = 'root@5.104.80.4'  // SSH user and VPS IP address
         DEPLOY_DIR = '/opt/jar'  // Directory on your VPS to deploy to
         JAR_NAME = 'demo-SpringBoot-SwaggerV3'  // Directory on your VPS to deploy to
