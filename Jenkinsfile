@@ -12,6 +12,7 @@ pipeline {
         JAR_NAME = 'demo-SpringBoot-SwaggerV3'  // Directory on your VPS to deploy to
         CURRENT_TIME = "${new Date().format('yyyy-MM-dd HH:mm:ss')}"
         CURRENT_TIMVvVV = "${new Date().format('yyyy-MM-dd-HH-mm-ss')}"
+        ENVENV='dev2'
     }
 
     stages {
@@ -57,7 +58,7 @@ pipeline {
                     // Copy the packaged application to the VPS using SCP
                     sh '''
                         #!/bin/bash
-                        scp -P 22 target/${JAR_NAME}.jar ${REMOTE_SERVER}:${DEPLOY_DIR}/${JAR_NAME}-${CURRENT_TIMVvVV}-${BUILD_NUMBER}.jar
+                        scp -P 22 target/${JAR_NAME}.jar ${REMOTE_SERVER}:${DEPLOY_DIR}/${JAR_NAME}-${ENVENV}-${CURRENT_TIMVvVV}-${BUILD_NUMBER}.jar
                     '''
                 }
             }
@@ -69,8 +70,8 @@ pipeline {
                      sh '''
                             ssh -p 22 root@5.104.80.4 << EOF || true
                             java -version
-                            pkill -f 'demo-SpringBoot-SwaggerV3'
-                            nohup java -jar ${DEPLOY_DIR}/${JAR_NAME}-${CURRENT_TIMVvVV}-${BUILD_NUMBER}.jar > /dev/null 2>&1 &
+                            pkill -f 'demo-SpringBoot-SwaggerV3-${ENVENV}'
+                            nohup java -jar ${DEPLOY_DIR}/${JAR_NAME}-${ENVENV}-${CURRENT_TIMVvVV}-${BUILD_NUMBER}.jar --server.port=17000 > /dev/null 2>&1 &
                             sleep 10
                             ps aux | grep demo-SpringBoot-SwaggerV3.jar
                         EOF
