@@ -21,6 +21,7 @@ pipeline {
 
         // Stage to build the Spring Boot application using Maven
         stage('Build') {
+            agent { docker 'maven:3-alpine' } 
             steps {
                 script {
                     echo "Building Spring Boot application from branch: ${BRANCH_NAME}"
