@@ -1,4 +1,4 @@
-node(label: 'linux-builder-17'){
+node(){
 
     scmVars = checkout(scm)
     gitUrl = scmVars.GIT_URL
