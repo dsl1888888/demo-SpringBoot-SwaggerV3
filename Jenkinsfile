@@ -13,26 +13,10 @@ node(){
     if (env.GIT_BRANCH == null) {
         env.GIT_BRANCH = env.BRANCH_NAME
     }
-
-    stage ('unit test') {
-        // TODO:
-        //     // Use the Maven configured in Jenkins (via Global Tool)
-        //     // TODO: Fix unit tests
-        //     withMaven(maven: 'maven', options: [artifactsPublisher(disabled: true)]) {
-        //         sh "mvn clean verify -Pclover.all --update-snapshots -DskipTests"
-        //     }
-        //     // TODO: Add threshold for code coverage
-        //     step([
-        //         $class: 'CloverPublisher',
-        //         cloverReportDir: 'target/site',
-        //         cloverReportFileName: 'clover.xml'
-        //       ])
-    }
-
     stage ('build') {
         // Use the Maven configured in Jenkins (via Global Tool)
         withMaven(maven: 'maven', options: [artifactsPublisher(disabled: true)]) {
-            sh "mvn clean deploy --update-snapshots -DskipTests"
+            sh "mvn clean install --update-snapshots -DskipTests"
         }
     }
 
