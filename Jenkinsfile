@@ -1,8 +1,8 @@
 pipeline {
     agent any
     tools {
-        mvn 'maven3.9.9'
-
+        //maven3 'maven3.9.9'
+        maven3 'maven3'
     }
 
     environment {
