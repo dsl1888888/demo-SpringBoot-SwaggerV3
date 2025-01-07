@@ -1,9 +1,6 @@
 pipeline {
     agent any
-    tools {
-        //maven3 'maven3.9.9'
-        maven3 'maven3'
-    }
+    
 
     environment {
         // The branch name can be accessed as an environment variable.
