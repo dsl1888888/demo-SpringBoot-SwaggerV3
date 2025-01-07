@@ -1,9 +1,9 @@
 pipeline {
     agent any
-    tools {
-        //git 'Git'  // This refers to the Git installation you configured in Jenkins
-        mvn 'maven3.9.9'
-    }
+//     tools {
+//         //git 'Git'  // This refers to the Git installation you configured in Jenkins
+// //         mvn 'maven3.9.9'
+//     }
     environment {
         // The branch name can be accessed as an environment variable.
         BRANCH_NAME = "${env.GIT_BRANCH}"
