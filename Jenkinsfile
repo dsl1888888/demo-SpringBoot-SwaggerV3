@@ -70,7 +70,7 @@ pipeline {
                      sh '''
                             ssh -p 22 root@5.104.80.4 << EOF || true
                             java -version
-                            pkill -f 'demo-SpringBoot-SwaggerV3'
+                            pkill -f 'demo-SpringBoot-SwaggerV3-${ENVENV}'
                             nohup java -jar ${DEPLOY_DIR}/${JAR_NAME}-${ENVENV}-${CURRENT_TIMVvVV}-${BUILD_NUMBER}.jar --server.port=17001 > /dev/null 2>&1 &
                             sleep 10
                             ps aux | grep demo-SpringBoot-SwaggerV3.jar
