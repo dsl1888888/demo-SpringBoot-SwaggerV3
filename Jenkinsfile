@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        git 'Git'  // This refers to the Git installation you configured in Jenkins
+        //git 'Git'  // This refers to the Git installation you configured in Jenkins
         //mvn 'maven3.9.9'
     }
     environment {
