@@ -4,7 +4,7 @@ pipeline {
     tools {
         maven 'maven3.9.9' // Updated to the configured Maven version
 //         git 'Default' // Updated to the configured Git version
-        git 'Git2.47.1'
+        git 'git2.47.1'
     }
     environment {
         // Define environment variables
