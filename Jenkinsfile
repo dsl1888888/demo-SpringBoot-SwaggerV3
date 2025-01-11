@@ -87,6 +87,7 @@ pipeline {
                     // Optionally, verify if the app is running by checking the health endpoint (or any endpoint)
                     echo "Verifying deployment..."
                     sh '''
+                        sleep 10
                         curl -f http://5.104.80.4:17004/a2 || exit 1
                     '''
                 }
