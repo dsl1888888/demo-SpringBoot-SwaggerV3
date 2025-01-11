@@ -1,9 +1,10 @@
 pipeline {
     agent any
 
-//     tools {
-//         maven 'maven3.9.9'
-//     }
+    tools {
+        maven 'Maven 3.8.5' // Replace with your preferred Maven version
+        git 'Git 2.30.0' // Replace with your preferred Git version
+    }
     environment {
         // Define environment variables
         JAVA_HOME = '/opt/java/openjdk'  // Adjust if necessary
@@ -12,7 +13,7 @@ pipeline {
         JAR_NAME = 'demo-SpringBoot-SwaggerV3'  // Directory on your VPS to deploy to
         CURRENT_TIME = "${new Date().format('yyyy-MM-dd HH:mm:ss')}"
         CURRENT_TIMVvVV = "${new Date().format('yyyy-MM-dd-HH-mm-ss')}"
-        ENVENV='dev1'
+        ENVENV='DEV-DOCKER'
     }
 
     stages {
@@ -71,7 +72,7 @@ pipeline {
                             ssh -p 22 root@5.104.80.4 << EOF || true
                             java -version
                             pkill -f 'demo-SpringBoot-SwaggerV3-${ENVENV}'
-                            nohup java -jar ${DEPLOY_DIR}/${JAR_NAME}-${ENVENV}-${CURRENT_TIMVvVV}-${BUILD_NUMBER}.jar --server.port=17001 > /dev/null 2>&1 &
+                            nohup java -jar ${DEPLOY_DIR}/${JAR_NAME}-${ENVENV}-${CURRENT_TIMVvVV}-${BUILD_NUMBER}.jar --server.port=17003 > /dev/null 2>&1 &
                             sleep 10
                             ps aux | grep demo-SpringBoot-SwaggerV3.jar
                         EOF
