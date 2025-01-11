@@ -13,7 +13,7 @@ pipeline {
         JAR_NAME = 'demo-SpringBoot-SwaggerV3'  // Directory on your VPS to deploy to
         CURRENT_TIME = "${new Date().format('yyyy-MM-dd HH:mm:ss')}"
         CURRENT_TIMVvVV = "${new Date().format('yyyy-MM-dd-HH-mm-ss')}"
-        ENVENV='DEV-DOCKER'
+        ENVENV='TEST-DOCKER'
     }
 
     stages {
@@ -72,7 +72,7 @@ pipeline {
                             ssh -p 22 root@5.104.80.4 << EOF || true
                             java -version
                             pkill -f 'demo-SpringBoot-SwaggerV3-${ENVENV}'
-                            nohup java -jar ${DEPLOY_DIR}/${JAR_NAME}-${ENVENV}-${CURRENT_TIMVvVV}-${BUILD_NUMBER}.jar --server.port=17003 > /dev/null 2>&1 &
+                            nohup java -jar ${DEPLOY_DIR}/${JAR_NAME}-${ENVENV}-${CURRENT_TIMVvVV}-${BUILD_NUMBER}.jar --server.port=17004 > /dev/null 2>&1 &
                             sleep 10
                             ps aux | grep demo-SpringBoot-SwaggerV3.jar
                         EOF
@@ -87,7 +87,7 @@ pipeline {
                     // Optionally, verify if the app is running by checking the health endpoint (or any endpoint)
                     echo "Verifying deployment..."
                     sh '''
-                        curl -f http://5.104.80.4:17003/a2 || exit 1
+                        curl -f http://5.104.80.4:17004/a2 || exit 1
                     '''
                 }
             }
