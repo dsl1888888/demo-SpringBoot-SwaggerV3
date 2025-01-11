@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven 3.8.5' // Replace with your preferred Maven version
-        git 'Git 2.30.0' // Replace with your preferred Git version
+        maven 'maven3.9.9' // Updated to the configured Maven version
+        git 'Default' // Updated to the configured Git version
     }
     environment {
         // Define environment variables
@@ -100,6 +100,10 @@ pipeline {
     }
 
     post {
+        always {
+                // Archive the build artifacts
+                archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
+        }
         success {
             echo 'Deployment Successful!'
         }
